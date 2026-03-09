@@ -1,0 +1,25 @@
+name: Build Strawberries OS
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Позволяет запускать сборку кнопкой
+
+jobs:
+  build:
+    name: Build Custom Image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Strawberries
+        uses: blue-build/github-action@v1
+        with:
+          recipe: 'recipes/recipe.yml'
+          registry_token: ${{ github.token }}
+          prune: true
